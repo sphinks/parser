@@ -731,8 +731,10 @@ function parser_entity_view($entity, $entity_type, $view_mode, $langcode) {
   $entity_id = entity_id($entity_type, $entity);
   
   if ($view_mode == 'full' && $GLOBALS['user']->uid == 1 && ($url = _parser_get_url_by_entity_id($entity_id))) {
+	preg_match("/http:\/\/(.+\..{2,3})\//", $url, $matches);
+	$show_url = $matches[1];
     $entity->content['parser_url'] = array(
-      '#markup' => '<p>Контент спарсен со страницы ' . l($url, 'http://anonym.to/?' . $url, array('attributes' => array('target' => '_blank'))) . '</p>', 
+      '#markup' => '<p>Источник: ' . l($show_url, $url, array('attributes' => array('target' => '_blank'))) . '</p>', 
       '#weight' => 100, 
     );
   }
